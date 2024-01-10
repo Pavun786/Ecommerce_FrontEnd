@@ -16,9 +16,13 @@ const Register =()=>{
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [answer, setAnswer] = useState("");
+    const [role,setRole] = useState("")
+    
+    console.log(role)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(role)
         try {
           const res = await axios.post(`${info.url}/api/v1/auth/register`, {
             name,
@@ -26,10 +30,12 @@ const Register =()=>{
             password,
             phone,
             address,
-            answer
+            answer,
+            role
           });
           if (res && res.data.success) {
             toast.success(res.data && res.data.message);
+            console.log("datas",res.data.user)
             navigate("/login");
           } else {
             toast.error(res.data.message);
@@ -112,6 +118,20 @@ const Register =()=>{
               placeholder="What is Your Favorite sports"
               required
             />
+          </div>
+          <div className="mb-3">
+          
+          <select class="form-select" aria-label="Default select example" 
+           value={role}
+           onChange={e => {
+            console.log(e.target.value);
+            setRole(e.target.value)}}
+          >
+           <option></option>
+            <option value="1">Admin</option>
+            <option value="0">user</option>
+            
+          </select>
           </div>
           <button type="submit" className="btn btn-primary">
             REGISTER
